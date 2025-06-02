@@ -12,10 +12,12 @@ namespace Web_Lab_Exam
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            
+            // Only proceed if all front-end validators are satisfied
+            if (!Page.IsValid)
+                return;
+
             string connStr = ConfigurationManager.ConnectionStrings["MyDBConnection"].ConnectionString;
 
-            
             string query = "INSERT INTO Feedback (StudentName, CourseName, Comments, Phone) " +
                            "VALUES (@StudentName, @CourseName, @Comments, @Phone)";
 
@@ -23,22 +25,21 @@ namespace Web_Lab_Exam
             {
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    
-                    cmd.Parameters.AddWithValue("@StudentName", TextBox1.Text);
-                    cmd.Parameters.AddWithValue("@CourseName", TextBox3.Text);
-                    cmd.Parameters.AddWithValue("@Comments", TextBox2.Text);
-                    cmd.Parameters.AddWithValue("@Phone", Convert.ToInt64(TextBox4.Text));  
+                    cmd.Parameters.AddWithValue("@StudentName", TextBox1.Text.Trim());
+                    cmd.Parameters.AddWithValue("@CourseName", TextBox3.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Comments", TextBox2.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Phone", TextBox4.Text.Trim());  // Treat phone as string
 
                     try
                     {
                         con.Open();
-                        cmd.ExecuteNonQuery(); 
+                        cmd.ExecuteNonQuery();
                         con.Close();
 
                         lblMessage.Text = "Feedback submitted successfully!";
                         lblMessage.ForeColor = System.Drawing.Color.Green;
 
-                        
+                        // Clear input fields
                         TextBox1.Text = "";
                         TextBox2.Text = "";
                         TextBox3.Text = "";

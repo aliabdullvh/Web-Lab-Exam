@@ -9,9 +9,21 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="true" 
-    CssClass="table table-bordered" HeaderStyle-BackColor="#007ACC" HeaderStyle-ForeColor="White">
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+    DataKeyNames="FeedbackID" 
+    OnRowEditing="GridView1_RowEditing" 
+    OnRowUpdating="GridView1_RowUpdating" 
+    OnRowCancelingEdit="GridView1_RowCancelingEdit"
+    OnRowDeleting="GridView1_RowDeleting">
+    <Columns>
+        <asp:BoundField DataField="StudentName" HeaderText="Student Name" />
+        <asp:BoundField DataField="CourseName" HeaderText="Course Name" />
+        <asp:BoundField DataField="Comments" HeaderText="Comments" />
+        <asp:BoundField DataField="Phone" HeaderText="Phone" />
+        <asp:CommandField ShowEditButton="True" ShowDeleteButton="True" />
+    </Columns>
 </asp:GridView>
+
 
         </div>
     </form>
